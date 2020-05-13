@@ -13,6 +13,7 @@ class Frontpage extends StatefulWidget {
 class _MainPageState extends State<Frontpage> {
   final double _imageHeight = 256.0;
   bool showOnlyCompleted = false;
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -29,7 +30,12 @@ class _MainPageState extends State<Frontpage> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
+      key: _scaffoldKey,
       drawer: MyDrawer(),
+      // appBar: AppBar(
+      //   title: Text("Dumb"),
+      //   // backgroundColor: Colors.transparent,
+      // ),
       body: new Stack(
         children: <Widget>[
           _buildIamge(),
@@ -65,7 +71,8 @@ class _MainPageState extends State<Frontpage> {
           InkWell(
             onTap: () {
               print('hua');
-              Scaffold.of(context).openDrawer();
+              // Scaffold.of(context).openDrawer();
+              _scaffoldKey.currentState.openDrawer();
             },
             child: new Icon(
               Icons.menu,
