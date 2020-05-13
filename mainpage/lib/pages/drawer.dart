@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'dart:io';
+import 'package:fluttertoast/fluttertoast.dart';
 import '../classes/global.dart' as globals;
 // import '../pages/diagnosis.dart';
 
-class MyDrawer extends StatelessWidget {
+class MyDrawer extends StatefulWidget {
+  @override
+  _MyDrawerState createState() => _MyDrawerState();
+}
+
+class _MyDrawerState extends State<MyDrawer> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -52,15 +58,27 @@ class MyDrawer extends StatelessWidget {
               Column(
                 children: <Widget>[
                   listTileBuilder(Icons.history, 'History', () {
-                    Navigator.popAndPushNamed(context, 'history');
+                    print(' guest = ${globals.isguest}');
+                    if (globals.isguest) {
+                      maketoast('Login to see the history', 0xff3AFF3A,
+                          0xff000000); //8C8C8C
+                    } else
+                      Navigator.popAndPushNamed(context, 'history');
                   }),
                   listTileBuilder(Icons.info_outline, 'About the app', () {
                     Navigator.popAndPushNamed(context, 'about');
                   }),
-                  listTileBuilder(Icons.account_circle, 'Logout', () {
-                    Navigator.of(context).pushNamedAndRemoveUntil(
-                        '/', (Route<dynamic> route) => false);
-                  }),
+                  !globals.isguest
+                      ? listTileBuilder(Icons.account_circle, 'Logout', () {
+                          print(' guest = ${globals.isguest}');
+                          Navigator.of(context).pushNamedAndRemoveUntil(
+                              '/', (Route<dynamic> route) => false);
+                        })
+                      : listTileBuilder(Icons.account_circle, 'Login', () {
+                          print(' guest = ${globals.isguest}');
+                          Navigator.of(context).pushNamedAndRemoveUntil(
+                              '/', (Route<dynamic> route) => false);
+                        }),
                   listTileBuilder(
                     Icons.receipt,
                     'Diagnosis',
@@ -77,6 +95,17 @@ class MyDrawer extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void maketoast(var text, var color1, var color2) {
+    Fluttertoast.showToast(
+        msg: text,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Color(color1),
+        textColor: Color(color2),
+        fontSize: 16.0);
   }
 
   Widget listTileBuilder(icon, text, func) {

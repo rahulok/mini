@@ -12,9 +12,10 @@ class WelcomePage extends StatefulWidget {
 }
 
 class _WelcomePageState extends State<WelcomePage> {
-  Widget _submitButton() {
+  Widget _loginButton() {
     return InkWell(
       onTap: () {
+        globals.isguest = false;
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => LoginPage()));
       },
@@ -43,6 +44,7 @@ class _WelcomePageState extends State<WelcomePage> {
   Widget _signUpButton() {
     return InkWell(
       onTap: () {
+        globals.isguest = false;
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => SignUpPage()));
       },
@@ -67,6 +69,7 @@ class _WelcomePageState extends State<WelcomePage> {
       onTap: () {
         globals.username = 'Guest';
         globals.emailid = '';
+        globals.isguest = true;
         Navigator.of(context).pushNamedAndRemoveUntil(
             'frontpage', (Route<dynamic> route) => false);
       },
@@ -129,7 +132,7 @@ class _WelcomePageState extends State<WelcomePage> {
               SizedBox(
                 height: 80,
               ),
-              _submitButton(),
+              _loginButton(),
               SizedBox(
                 height: 20,
               ),

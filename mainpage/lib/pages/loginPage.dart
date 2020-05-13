@@ -26,14 +26,14 @@ class _LoginPageState extends State<LoginPage> {
     setState(() {});
   }
 
-  void maketoast(var text, var color) {
+  void maketoast(var text, var color1, var color2) {
     Fluttertoast.showToast(
         msg: text,
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 1,
-        backgroundColor: Color(color),
-        textColor: Colors.white,
+        backgroundColor: Color(color1),
+        textColor: Color(color2),
         fontSize: 16.0);
   }
 
@@ -124,7 +124,7 @@ class _LoginPageState extends State<LoginPage> {
             var foundid =
                 userlist.firstWhere((ele) => ele.emailid == email, orElse: () {
               print('first, id = $email , pass = $pass');
-              maketoast('Invalid email!', 0xffFF4517);
+              maketoast('Email id not registered!', 0xffFF4517, 0xffFFFFFF);
               flag = false;
               return Account('dummy', 'dummy',
                   ' dummy'); //Doing this so that i dont get the warning
@@ -133,7 +133,7 @@ class _LoginPageState extends State<LoginPage> {
             if (flag) {
               if (foundid.password == pass) {
                 print('Second');
-                maketoast("Login Successful!", 0xff31FC10);
+                maketoast('Logged in', 0xff3AFF3A, 0xff000000);
                 globals.username = foundid.username;
                 globals.emailid = foundid.emailid;
                 // Navigator.of(context).push(
@@ -147,12 +147,12 @@ class _LoginPageState extends State<LoginPage> {
                     'frontpage', (Route<dynamic> route) => false);
               } else {
                 print('third');
-                maketoast('Invalid password!', 0xffFF4517);
+                maketoast('Invalid password!', 0xffFF4517, 0xffFFFFFF);
               }
             }
           } catch (error) {
             print(error.toString());
-            maketoast('Some error occured!', 0xffFF4517);
+            maketoast('Some error occured!', 0xffFF4517, 0xffFFFFFF);
           }
           isloading = false;
           setState(() {});
