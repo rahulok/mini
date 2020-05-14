@@ -6,6 +6,7 @@ import './pages/loginPage.dart';
 import './pages/signup.dart';
 import './pages/question.dart';
 import './pages/diagnosis.dart';
+import './pages/about.dart';
 // import './pages/whatisit.dart';
 
 void main() => runApp(MyApp());
@@ -52,6 +53,7 @@ class _MyAppState extends State<MyApp> {
         'signup': (context) => SignUpPage(),
         'question': (context) => QuestionPage(),
         'diagnosis': (context) => Diagnosis(),
+        'about' : (context) => Aboutpage(),
         // 'whatisit': (context) => Whatisit(),
       },
     );

@@ -4,13 +4,13 @@ import 'package:google_fonts/google_fonts.dart';
 import '../pages/drawer.dart';
 import '../classes/global.dart' as globals;
 
-class Frontpage extends StatefulWidget {
-  Frontpage({Key key}) : super(key: key);
+class Aboutpage extends StatefulWidget {
+  Aboutpage({Key key}) : super(key: key);
   @override
   _MainPageState createState() => new _MainPageState();
 }
 
-class _MainPageState extends State<Frontpage> {
+class _MainPageState extends State<Aboutpage> {
   final double _imageHeight = 256.0;
   bool showOnlyCompleted = false;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -32,13 +32,15 @@ class _MainPageState extends State<Frontpage> {
     return new Scaffold(
       key: _scaffoldKey,
       drawer: MyDrawer(),
-      body: new Stack(
-        children: <Widget>[
-          _buildIamge(),
-          _buildTopHeader(),
-          _buildProfileRow(),
-          _buildBottomPart(),
-        ],
+      body: SingleChildScrollView(
+        child: new Stack(
+          children: <Widget>[
+            _buildIamge(),
+            _buildTopHeader(),
+            _buildProfileRow(),
+            _buildBottomPart(),
+          ],
+        ),
       ),
     );
   }
@@ -49,7 +51,7 @@ class _MainPageState extends State<Frontpage> {
       child: new ClipPath(
         clipper: new DialogonalClipper(),
         child: new Image.asset(
-          './images/birds.jpg',
+          './images/about2.jpg',
           fit: BoxFit.cover,
           height: _imageHeight,
           colorBlendMode: BlendMode.srcOver,
@@ -66,8 +68,6 @@ class _MainPageState extends State<Frontpage> {
         children: <Widget>[
           InkWell(
             onTap: () {
-              print('hua');
-              // Scaffold.of(context).openDrawer();
               _scaffoldKey.currentState.openDrawer();
             },
             child: new Icon(
@@ -128,7 +128,7 @@ class _MainPageState extends State<Frontpage> {
   }
 
   Widget _buildBottomPart() {
-    return new Padding(
+    return Padding(
       padding: new EdgeInsets.only(top: _imageHeight),
       child: new Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -140,13 +140,13 @@ class _MainPageState extends State<Frontpage> {
   }
 
   Widget _buildMyTasksHeader() {
-    return new Padding(
-      padding: new EdgeInsets.only(left: 64.0),
+    return Padding(
+      padding: new EdgeInsets.only(left: 50.0,right: 5.0,),
       child: new Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           new Text(
-            'How it works',
+            'About the App',
             style: GoogleFonts.sahitya(
               textStyle: TextStyle(
                 fontSize: 37.0,
@@ -158,7 +158,7 @@ class _MainPageState extends State<Frontpage> {
             height: 20,
           ),
           new Text(
-            'We will ask you some questions for which you have to answer with either yes or no, you can also click the \'What is it\' button to gain more insight into the disease.',
+            'What is the first thing we do when you start feeling under the weather? Do we wait for the symptoms to become more prominent or do we immediately start taking precautions? We probably Google your symptoms on the web.\nBut more often than not this self-diagnosis on the internet always points towards something more sinister. For example, if you search for ‘headache’, you are most likely going to find around 20 results, each scarier than the other. There are chances that your headache might also be diagnosed as a tumour and your perpetual fatigue could be a sign of an underlying disease including cancer.\nThere is a lot of junk present on the internet that might be nowhere even near to the actual solution to our problem. It is important to know the difference between the reliable source of information and complete gibberish. In addition to incorrect diagnoses, self-diagnosing your symptoms using Google can actually mask a potentially dangerous disease. So, apart from the sketchy and inaccurate diagnosis of innumerable medical websites on the internet, it is the risk of not being able to identify a disease correctly that is worse. Nobody can vouch for the quality and credibility of the content available online. While it can provide you information from credible sources, it can also get you links of some sketchy websites that have bogus information.\nThis is how the application is different from the results from search engines. It does not conclude based upon only one or two inputs but takes various parameters and only then tells what may be the problem. It poses a series of questions that are personalized by its algorithm based on the responses from each user. It then uses that information to suggest possible health issues. The key was putting the problem first, rather than building AI and figuring out a use later. The app is like a personal health companion. All the questions asked relate to the answers previously given. It can help people, their family and friends analyse symptoms and receive personal health assessments.\nThe app will empower patients to make more informed decisions about their health. Or, to put it more bluntly, to ensure we only visit a doctor when we need to and, more generally, can be proactive in our healthcare without adding the need for greater human doctor resources.\n',
             style: GoogleFonts.sahitya(
               textStyle: TextStyle(
                 fontSize: 22.0,
@@ -166,27 +166,6 @@ class _MainPageState extends State<Frontpage> {
               ),
             ),
           ),
-          Container(
-            margin: EdgeInsets.only(top: 20),
-            width: globals.widthofdevice * 0.70,
-            child: RaisedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, 'question');
-              },
-              child: Text(
-                'Start!',
-                style: GoogleFonts.aBeeZee(
-                  textStyle: TextStyle(fontSize: 20),
-                ),
-              ),
-              color: Colors.blue[400],
-              colorBrightness: Brightness.dark,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10)),
-              padding: EdgeInsets.all(7),
-              elevation: 5,
-            ),
-          )
         ],
       ),
     );

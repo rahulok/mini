@@ -51,6 +51,8 @@ flutter:
     - ./images/qback7.jpg
     - ./images/qback8.jpg
     - ./images/qback9.jpg
+    - ./images/about.jpg
+    - ./images/about2.jpg
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
