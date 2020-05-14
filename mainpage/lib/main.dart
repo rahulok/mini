@@ -2,16 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'pages/welcomePage.dart';
 import './pages/frontpage.dart';
-// import './pages/drawer.dart';
 import './pages/loginPage.dart';
 import './pages/signup.dart';
 import './pages/question.dart';
 import './pages/diagnosis.dart';
+// import './pages/whatisit.dart';
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatefulWidget {
-  // This widget is the root of your application.
   @override
   _MyAppState createState() => _MyAppState();
 }
@@ -53,6 +52,7 @@ class _MyAppState extends State<MyApp> {
         'signup': (context) => SignUpPage(),
         'question': (context) => QuestionPage(),
         'diagnosis': (context) => Diagnosis(),
+        // 'whatisit': (context) => Whatisit(),
       },
     );
   }

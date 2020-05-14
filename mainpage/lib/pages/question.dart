@@ -1,7 +1,8 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
-// import 'dart:math';
 import 'package:mainpage/classes/global.dart';
 import 'package:google_fonts/google_fonts.dart';
+import './whatisit.dart';
 
 class QuestionPage extends StatefulWidget {
   @override
@@ -11,7 +12,26 @@ class QuestionPage extends StatefulWidget {
 class _QuestionPageState extends State<QuestionPage> {
   // final _question = ['Are you suffering from ', 'Do you have '];
   // var _rand = (new Random()).nextInt(2);
-  String _disease = 'fever'; //will be derived from somewhere
+  String _disease = 'fever';
+  var imagesarr = [
+    'qback',
+    'qback2',
+    'qback3',
+    'qback4',
+    'qback5',
+    'qback6',
+    'qback7',
+    'qback8',
+    'qback9',
+    'qback10',
+  ];
+  var imgnum;
+
+  _QuestionPageState() {
+    print('Got here');
+    imgnum = (new Random()).nextInt(10);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -19,7 +39,7 @@ class _QuestionPageState extends State<QuestionPage> {
       // height: double.infinity,
       decoration: BoxDecoration(
         image: DecorationImage(
-          image: AssetImage("./images/qback.jpg"),
+          image: AssetImage("./images/${imagesarr[imgnum]}.jpg"),
           fit: BoxFit.cover,
         ),
       ),
@@ -31,7 +51,7 @@ class _QuestionPageState extends State<QuestionPage> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
           ),
-          color: Colors.transparent.withOpacity(0.1),
+          color: Colors.transparent.withOpacity(0.15),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -40,7 +60,7 @@ class _QuestionPageState extends State<QuestionPage> {
                 margin: EdgeInsets.only(top: 30, left: 10, right: 10),
                 // padding: EdgeInsets.all(20),
                 child: Text(
-                  'Are you suffering from $_disease',
+                  'Are you suffering from $_disease ?',
                   style: GoogleFonts.lato(
                     textStyle: TextStyle(fontSize: 23),
                     color: Colors.white.withOpacity(0.9),
@@ -82,7 +102,17 @@ class _QuestionPageState extends State<QuestionPage> {
                     margin: EdgeInsets.only(bottom: 3),
                     child: FlatButton(
                       splashColor: Colors.transparent,
-                      onPressed: () {},
+                      onPressed: () {
+                        // Navigator.pushNamed(context, 'diagnosis');
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (_) {
+                              return Whatisit('AIDS',
+                                  'This is very harmful for your pee pee'); //Name of the page
+                            },
+                          ),
+                        );
+                      },
                       child: Text(
                         'What is it?',
                         style: TextStyle(
