@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:mainpage/classes/global.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../classes/dummydata.dart';
+import './diagnosis.dart';
 
 class QuestionPage extends StatefulWidget {
   @override
@@ -10,9 +12,7 @@ class QuestionPage extends StatefulWidget {
 }
 
 class _QuestionPageState extends State<QuestionPage> {
-  // final _question = ['Are you suffering from ', 'Do you have '];
-  // var _rand = (new Random()).nextInt(2);
-  String _symptom = 'gas';
+  var arrofsym, disease, cursym, cursymno;
   var imagesarr = [
     'qback',
     'qback2',
@@ -28,15 +28,22 @@ class _QuestionPageState extends State<QuestionPage> {
   var imgnum;
 
   _QuestionPageState() {
-    print('Got here');
+    disease = dis[(new Random()).nextInt(131)];
+    arrofsym = sym;
+    for (int i = 0; i < 15; i++) {
+      int num = (new Random()).nextInt(404);
+      String ok = arrofsym[i];
+      arrofsym[i] = arrofsym[num];
+      arrofsym[num] = ok;
+    }
+    cursymno = 0;
+    cursym = arrofsym[cursymno++];
     imgnum = (new Random()).nextInt(10);
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      // width: double.infinity,
-      // height: double.infinity,
       decoration: BoxDecoration(
         image: DecorationImage(
           image: AssetImage("./images/${imagesarr[imgnum]}.jpg"),
@@ -52,155 +59,113 @@ class _QuestionPageState extends State<QuestionPage> {
             borderRadius: BorderRadius.circular(20),
           ),
           color: Colors.transparent.withOpacity(0.15),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Container(
-                margin: EdgeInsets.only(top: 30, left: 10, right: 10),
-                // padding: EdgeInsets.all(20),
-                child: Text(
-                  'Are you suffering from $_symptom ?',
-                  style: GoogleFonts.lato(
-                    textStyle: TextStyle(fontSize: 23),
-                    color: Colors.white.withOpacity(0.9),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  margin: EdgeInsets.only(top: 30, left: 10, right: 10),
+                  child: Text(
+                    'Are you suffering from $cursym?',
+                    style: GoogleFonts.lato(
+                      textStyle: TextStyle(fontSize: 23),
+                      color: Colors.white.withOpacity(0.9),
+                    ),
+                    textAlign: TextAlign.center,
                   ),
-                  textAlign: TextAlign.center,
                 ),
-              ),
-              Column(
-                children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    // crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      FlatButton(
+                Column(
+                  children: <Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      // crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        FlatButton(
+                          splashColor: Colors.transparent,
+                          onPressed: () {
+                            if (cursymno == 5) {
+                              Navigator.of(context).pop();
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (_) {
+                                    return Diagnosis(disease);
+                                  },
+                                ),
+                              );
+                            }
+                            setState(() {
+                              imgnum = (new Random()).nextInt(10);
+                              cursym = arrofsym[++cursymno];
+                            });
+                          },
+                          child: Text(
+                            'Yes',
+                            style: TextStyle(
+                                fontSize: 18,
+                                color: Colors.white.withOpacity(0.9)),
+                          ),
+                        ),
+                        // VerticalDivider(),
+                        FlatButton(
+                          splashColor: Colors.transparent,
+                          onPressed: () {
+                            if (cursymno == 15) {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (_) {
+                                    return Diagnosis(disease);
+                                  },
+                                ),
+                              );
+                            }
+                            setState(() {
+                              imgnum = (new Random()).nextInt(10);
+                              cursym = arrofsym[++cursymno];
+                            });
+                          },
+                          child: Text(
+                            'No',
+                            style: TextStyle(
+                                fontSize: 18,
+                                color: Colors.white.withOpacity(0.9)),
+                          ),
+                        ),
+                      ],
+                    ),
+                    // Divider(),
+                    Container(
+                      margin: EdgeInsets.only(bottom: 3),
+                      child: FlatButton(
                         splashColor: Colors.transparent,
-                        onPressed: () {},
+                        onPressed: () async {
+                          var searchurl =
+                              "https://www.google.com/search?q=what is $cursym in symptoms";
+                          if (await canLaunch(searchurl)) {
+                            await launch(
+                              searchurl,
+                              forceWebView: true,
+                              forceSafariVC: true,
+                            );
+                          } else {
+                            throw 'Could not launch $searchurl';
+                          }
+                        },
                         child: Text(
-                          'Yes',
+                          'What is it?',
                           style: TextStyle(
                               fontSize: 18,
                               color: Colors.white.withOpacity(0.9)),
                         ),
-                      ),
-                      // VerticalDivider(),
-                      FlatButton(
-                        splashColor: Colors.transparent,
-                        onPressed: () {},
-                        child: Text(
-                          'No',
-                          style: TextStyle(
-                              fontSize: 18,
-                              color: Colors.white.withOpacity(0.9)),
-                        ),
-                      ),
-                    ],
-                  ),
-                  // Divider(),
-                  Container(
-                    margin: EdgeInsets.only(bottom: 3),
-                    child: FlatButton(
-                      splashColor: Colors.transparent,
-                      onPressed: () async {
-                        var searchurl =
-                            "https://www.google.com/search?q=$_symptom";
-                        if (await canLaunch(searchurl)) {
-                          await launch(
-                            searchurl,
-                            forceWebView: true,
-                            forceSafariVC: true,
-                          );
-                        } else {
-                          throw 'Could not launch $searchurl';
-                        }
-                      },
-                      child: Text(
-                        'What is it?',
-                        style: TextStyle(
-                            fontSize: 18, color: Colors.white.withOpacity(0.9)),
                       ),
                     ),
-                  ),
-                ],
-              )
-            ],
+                  ],
+                )
+              ],
+            ),
           ),
         ),
       )),
     );
   }
 }
-
-// Scaffold(
-//       body: Container(
-//         padding: EdgeInsets.all(10),
-//         margin: EdgeInsets.only(
-//           top: heightofdevice * 0.35,
-//           bottom: widthofdevice * 0.35,
-//         ),
-//         height: heightofdevice * 0.3,
-//         child: Card(
-//           elevation: 3,
-//           child: Column(
-//             mainAxisAlignment: MainAxisAlignment.center,
-//             children: [
-//               FittedBox(
-//                 child: Text(
-//                   '${_question[_rand]}$_disease',
-//                   style: TextStyle(
-//                     fontSize: 27,
-//                     fontWeight: FontWeight.bold,
-//                     fontFamily: Theme.of(context).textTheme.title.fontFamily,
-//                   ),
-//                 ),
-//               ),
-//               SizedBox(
-//                 height: 20,
-//               ),
-//               Row(
-//                 mainAxisAlignment: MainAxisAlignment.center,
-//                 children: [
-//                   RaisedButton(
-//                     onPressed: () {},
-//                     child: Text(
-//                       'Yes',
-//                       style: TextStyle(
-//                           color: Theme.of(context).textTheme.button.color),
-//                     ),
-//                   ),
-//                   Divider(
-//                     indent: 20,
-//                   ),
-//                   RaisedButton(
-//                     onPressed: () {},
-//                     child: Text(
-//                       'No',
-//                       style: TextStyle(
-//                         color: Theme.of(context).textTheme.button.color,
-//                       ),
-//                     ),
-//                   ),
-//                 ],
-//               ),
-//               SizedBox(
-//                 height: 10,
-//               ),
-//               ButtonTheme(
-//                 minWidth: MediaQuery.of(context).size.width * 0.5,
-//                 buttonColor: Theme.of(context).buttonColor,
-//                 child: RaisedButton(
-//                   onPressed: () {},
-//                   child: Text(
-//                     'What\'s it',
-//                     style: TextStyle(
-//                       color: Theme.of(context).textTheme.button.color,
-//                     ),
-//                   ),
-//                 ),
-//               ),
-//             ],
-//           ),
-//         ),
-//       ),
-//     );

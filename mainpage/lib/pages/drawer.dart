@@ -79,14 +79,6 @@ class _MyDrawerState extends State<MyDrawer> {
                           Navigator.of(context).pushNamedAndRemoveUntil(
                               '/', (Route<dynamic> route) => false);
                         }),
-                  listTileBuilder(
-                    Icons.receipt,
-                    'Diagnosis',
-                    () {
-                      Navigator.pop(context);
-                      Navigator.of(context).pushNamed('diagnosis');
-                    },
-                  ),
                   listTileBuilder(Icons.exit_to_app, 'Exit', () => exit(0)),
                 ],
               ),
