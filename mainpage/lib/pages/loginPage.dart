@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-// import '../pages/frontpage.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import '../classes/account.dart';
-import 'dart:convert';
 import '../classes/global.dart' as globals;
 import 'package:http/http.dart' as http;
+import 'dart:convert';
+import '../classes/account.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage({Key key, this.title}) : super(key: key);
@@ -129,20 +128,12 @@ class _LoginPageState extends State<LoginPage> {
               return Account('dummy', 'dummy',
                   ' dummy'); //Doing this so that i dont get the warning
             });
-
             if (flag) {
               if (foundid.password == pass) {
                 print('Second');
                 maketoast('Logged in', 0xff3AFF3A, 0xff000000);
                 globals.username = foundid.username;
                 globals.emailid = foundid.emailid;
-                // Navigator.of(context).push(
-                //   MaterialPageRoute(
-                //     builder: (_) {
-                //       return Frontpage(); //Name of the page
-                //     },
-                //   ),
-                // );
                 Navigator.of(context).pushNamedAndRemoveUntil(
                     'frontpage', (Route<dynamic> route) => false);
               } else {

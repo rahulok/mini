@@ -5,6 +5,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../classes/dummydata.dart';
 import './diagnosis.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import '../classes/global.dart' as globals;
 
 class QuestionPage extends StatefulWidget {
   @override
@@ -12,6 +15,7 @@ class QuestionPage extends StatefulWidget {
 }
 
 class _QuestionPageState extends State<QuestionPage> {
+  var url = 'https://hauloginok.firebaseio.com/user.json';
   var arrofsym, disease, cursym, cursymno;
   var imagesarr = [
     'qback',
@@ -83,8 +87,33 @@ class _QuestionPageState extends State<QuestionPage> {
                       children: <Widget>[
                         FlatButton(
                           splashColor: Colors.transparent,
-                          onPressed: () {
-                            if (cursymno == 5) {
+                          onPressed: () async {
+                            if (cursymno == 15) {
+                              var response = await http.get(url);
+                              var userdatamap = json.decode(response.body)
+                                  as Map<String, dynamic>;
+                              print(userdatamap);
+                              userdatamap.forEach((id, data) async {
+                                if (data['emailid'] == globals.emailid) {
+                                  List<dynamic> dislist = [];
+                                  if (data['history'] != null) {
+                                    dislist = data['history'];
+                                  }
+                                  dislist.add(disease);
+                                  print('mili id = $id');
+                                  var urlofuser =
+                                      'https://hauloginok.firebaseio.com/user/$id.json';
+                                  try {
+                                    await http.patch(urlofuser,
+                                        body: json.encode({
+                                          'history': dislist,
+                                        }));
+                                  } catch (error) {
+                                    print(error);
+                                  }
+                                }
+                              });
+
                               Navigator.of(context).pop();
                               Navigator.of(context).push(
                                 MaterialPageRoute(
@@ -109,8 +138,32 @@ class _QuestionPageState extends State<QuestionPage> {
                         // VerticalDivider(),
                         FlatButton(
                           splashColor: Colors.transparent,
-                          onPressed: () {
+                          onPressed: () async {
                             if (cursymno == 15) {
+                              var response = await http.get(url);
+                              var userdatamap = json.decode(response.body)
+                                  as Map<String, dynamic>;
+                              print(userdatamap);
+                              userdatamap.forEach((id, data) async {
+                                if (data['emailid'] == globals.emailid) {
+                                  List<dynamic> dislist = [];
+                                  if (data['history'] != null) {
+                                    dislist = data['history'];
+                                  }
+                                  dislist.add(disease);
+                                  print('mili id = $id');
+                                  var urlofuser =
+                                      'https://hauloginok.firebaseio.com/user/$id.json';
+                                  try {
+                                    await http.patch(urlofuser,
+                                        body: json.encode({
+                                          'history': dislist,
+                                        }));
+                                  } catch (error) {
+                                    print(error);
+                                  }
+                                }
+                              });
                               Navigator.of(context).push(
                                 MaterialPageRoute(
                                   builder: (_) {

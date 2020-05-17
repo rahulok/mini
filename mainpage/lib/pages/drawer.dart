@@ -3,6 +3,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'dart:io';
 import 'package:fluttertoast/fluttertoast.dart';
 import '../classes/global.dart' as globals;
+import './history.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import '../classes/account.dart';
 // import '../pages/diagnosis.dart';
 
 class MyDrawer extends StatefulWidget {
@@ -11,6 +15,8 @@ class MyDrawer extends StatefulWidget {
 }
 
 class _MyDrawerState extends State<MyDrawer> {
+  var url = 'https://hauloginok.firebaseio.com/user.json';
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -57,13 +63,32 @@ class _MyDrawerState extends State<MyDrawer> {
               ),
               Column(
                 children: <Widget>[
-                  listTileBuilder(Icons.history, 'History', () {
+                  listTileBuilder(Icons.history, 'History', () async {
                     print(' guest = ${globals.isguest}');
                     if (globals.isguest) {
                       maketoast('Login to see the history', 0xff3AFF3A,
                           0xff000000); //8C8C8C
-                    } else
-                      Navigator.popAndPushNamed(context, 'history');
+                    } else {
+                      List<dynamic> dislist = [];
+                      var response = await http.get(url);
+                      var userdatamap =
+                          json.decode(response.body) as Map<String, dynamic>;
+                      print(userdatamap);
+                      userdatamap.forEach((id, data) async {
+                        if (data['emailid'] == globals.emailid) {
+                          if (data['history'] != null) {
+                            dislist = data['history'] as List<dynamic>;
+                          }
+                        }
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (_) {
+                              return History(dislist); //Name of the page
+                            },
+                          ),
+                        );
+                      });
+                    }
                   }),
                   listTileBuilder(Icons.info_outline, 'About the app', () {
                     Navigator.popAndPushNamed(context, 'about');
