@@ -2,7 +2,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:mainpage/classes/global.dart';
 import 'package:google_fonts/google_fonts.dart';
-import './whatisit.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class QuestionPage extends StatefulWidget {
   @override
@@ -12,7 +12,7 @@ class QuestionPage extends StatefulWidget {
 class _QuestionPageState extends State<QuestionPage> {
   // final _question = ['Are you suffering from ', 'Do you have '];
   // var _rand = (new Random()).nextInt(2);
-  String _disease = 'fever';
+  String _symptom = 'gas';
   var imagesarr = [
     'qback',
     'qback2',
@@ -60,7 +60,7 @@ class _QuestionPageState extends State<QuestionPage> {
                 margin: EdgeInsets.only(top: 30, left: 10, right: 10),
                 // padding: EdgeInsets.all(20),
                 child: Text(
-                  'Are you suffering from $_disease ?',
+                  'Are you suffering from $_symptom ?',
                   style: GoogleFonts.lato(
                     textStyle: TextStyle(fontSize: 23),
                     color: Colors.white.withOpacity(0.9),
@@ -102,16 +102,18 @@ class _QuestionPageState extends State<QuestionPage> {
                     margin: EdgeInsets.only(bottom: 3),
                     child: FlatButton(
                       splashColor: Colors.transparent,
-                      onPressed: () {
-                        // Navigator.pushNamed(context, 'diagnosis');
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (_) {
-                              return Whatisit('AIDS',
-                                  'This is very harmful for your pee pee'); //Name of the page
-                            },
-                          ),
-                        );
+                      onPressed: () async {
+                        var searchurl =
+                            "https://www.google.com/search?q=$_symptom";
+                        if (await canLaunch(searchurl)) {
+                          await launch(
+                            searchurl,
+                            forceWebView: true,
+                            forceSafariVC: true,
+                          );
+                        } else {
+                          throw 'Could not launch $searchurl';
+                        }
                       },
                       child: Text(
                         'What is it?',

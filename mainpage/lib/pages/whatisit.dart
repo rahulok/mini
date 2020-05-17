@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 
 class Whatisit extends StatelessWidget {
-  final String dname, dinfo;
+  final String sname, sinfo;
 
-  Whatisit(this.dname, this.dinfo);
+  Whatisit(this.sname, this.sinfo);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(dname),
+        title: Text(sname),
       ),
       body: Center(
         child: Container(
           padding: EdgeInsets.only(left: 20, right: 20),
           child: Text(
-            dinfo,
+            sinfo,
             style: TextStyle(fontSize: 30),
           ),
         ),
