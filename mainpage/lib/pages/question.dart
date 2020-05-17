@@ -34,7 +34,7 @@ class _QuestionPageState extends State<QuestionPage> {
   _QuestionPageState() {
     disease = dis[(new Random()).nextInt(131)];
     arrofsym = sym;
-    for (int i = 0; i < 15; i++) {
+    for (int i = 0; i < 8; i++) {
       int num = (new Random()).nextInt(404);
       String ok = arrofsym[i];
       arrofsym[i] = arrofsym[num];
@@ -88,7 +88,7 @@ class _QuestionPageState extends State<QuestionPage> {
                         FlatButton(
                           splashColor: Colors.transparent,
                           onPressed: () async {
-                            if (cursymno == 15) {
+                            if (cursymno == 8) {
                               var response = await http.get(url);
                               var userdatamap = json.decode(response.body)
                                   as Map<String, dynamic>;
@@ -139,7 +139,7 @@ class _QuestionPageState extends State<QuestionPage> {
                         FlatButton(
                           splashColor: Colors.transparent,
                           onPressed: () async {
-                            if (cursymno == 15) {
+                            if (cursymno == 8) {
                               var response = await http.get(url);
                               var userdatamap = json.decode(response.body)
                                   as Map<String, dynamic>;
