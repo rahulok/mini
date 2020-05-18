@@ -80,6 +80,7 @@ class _MyDrawerState extends State<MyDrawer> {
                             dislist = data['history'] as List<dynamic>;
                           }
                         }
+                        Navigator.of(context).pop();
                         Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (_) {
