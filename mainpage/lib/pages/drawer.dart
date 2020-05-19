@@ -69,7 +69,9 @@ class _MyDrawerState extends State<MyDrawer> {
                       maketoast('Login to see the history', 0xff3AFF3A,
                           0xff000000); //8C8C8C
                     } else {
+                      maketoast('Please wait', 0xffB9B4B4, 0xffFFFFFF);
                       List<dynamic> dislist = [];
+                      List<dynamic> thedates = [];
                       var response = await http.get(url);
                       var userdatamap =
                           json.decode(response.body) as Map<String, dynamic>;
@@ -78,13 +80,17 @@ class _MyDrawerState extends State<MyDrawer> {
                         if (data['emailid'] == globals.emailid) {
                           if (data['history'] != null) {
                             dislist = data['history'] as List<dynamic>;
+                            thedates = data['date'] as List<dynamic>;
                           }
                         }
                         Navigator.of(context).pop();
                         Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (_) {
-                              return History(dislist); //Name of the page
+                              return History(
+                                dislist,
+                                thedates,
+                              ); //Name of the page
                             },
                           ),
                         );

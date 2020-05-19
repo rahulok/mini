@@ -4,7 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 
 class History extends StatelessWidget {
   var diseases = [];
-  History(this.diseases);
+  var thedates = [];
+  History(this.diseases, this.thedates);
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +50,7 @@ class History extends StatelessWidget {
                         title: Padding(
                           padding: EdgeInsets.all(10),
                           child: Text(
-                            diseases[idx],
+                            diseases[idx] + '\n' + thedates[idx],
                             style: GoogleFonts.sahitya(
                               textStyle: TextStyle(
                                 fontSize: 25,

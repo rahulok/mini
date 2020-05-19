@@ -1,10 +1,12 @@
 import 'dart:math';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/material.dart';
 import 'package:mainpage/classes/global.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../classes/dummydata.dart';
 import './diagnosis.dart';
+import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import '../classes/global.dart' as globals;
@@ -88,7 +90,16 @@ class _QuestionPageState extends State<QuestionPage> {
                         FlatButton(
                           splashColor: Colors.transparent,
                           onPressed: () async {
+                            String record = DateFormat.yMMMMd()
+                                    .format(DateTime.now())
+                                    .toString() +
+                                ' ' +
+                                DateFormat.jm()
+                                    .format(DateTime.now())
+                                    .toString();
+                            print(record);
                             if (cursymno == 8) {
+                              maketoast('Please wait', 0xffB9B4B4, 0xffFFFFFF);
                               var response = await http.get(url);
                               var userdatamap = json.decode(response.body)
                                   as Map<String, dynamic>;
@@ -96,10 +107,13 @@ class _QuestionPageState extends State<QuestionPage> {
                               userdatamap.forEach((id, data) async {
                                 if (data['emailid'] == globals.emailid) {
                                   List<dynamic> dislist = [];
+                                  List<dynamic> dates = [];
                                   if (data['history'] != null) {
                                     dislist = data['history'];
+                                    dates = data['date'];
                                   }
                                   dislist.add(disease);
+                                  dates.add(record);
                                   print('mili id = $id');
                                   var urlofuser =
                                       'https://hauloginok.firebaseio.com/user/$id.json';
@@ -107,6 +121,10 @@ class _QuestionPageState extends State<QuestionPage> {
                                     await http.patch(urlofuser,
                                         body: json.encode({
                                           'history': dislist,
+                                        }));
+                                    http.patch(urlofuser,
+                                        body: json.encode({
+                                          'date': dates,
                                         }));
                                   } catch (error) {
                                     print(error);
@@ -139,7 +157,15 @@ class _QuestionPageState extends State<QuestionPage> {
                         FlatButton(
                           splashColor: Colors.transparent,
                           onPressed: () async {
+                            String record = DateFormat.yMMMMd()
+                                    .format(DateTime.now())
+                                    .toString() +
+                                ' ' +
+                                DateFormat.jm()
+                                    .format(DateTime.now())
+                                    .toString();
                             if (cursymno == 8) {
+                              maketoast('Please wait', 0xffB9B4B4, 0xffFFFFFF);
                               var response = await http.get(url);
                               var userdatamap = json.decode(response.body)
                                   as Map<String, dynamic>;
@@ -147,10 +173,13 @@ class _QuestionPageState extends State<QuestionPage> {
                               userdatamap.forEach((id, data) async {
                                 if (data['emailid'] == globals.emailid) {
                                   List<dynamic> dislist = [];
+                                  List<dynamic> dates = [];
                                   if (data['history'] != null) {
                                     dislist = data['history'];
+                                    dates = data['date'];
                                   }
                                   dislist.add(disease);
+                                  dates.add(record);
                                   print('mili id = $id');
                                   var urlofuser =
                                       'https://hauloginok.firebaseio.com/user/$id.json';
@@ -159,11 +188,16 @@ class _QuestionPageState extends State<QuestionPage> {
                                         body: json.encode({
                                           'history': dislist,
                                         }));
+                                    http.patch(urlofuser,
+                                        body: json.encode({
+                                          'date': dates,
+                                        }));
                                   } catch (error) {
                                     print(error);
                                   }
                                 }
                               });
+                              Navigator.of(context).pop();
                               Navigator.of(context).push(
                                 MaterialPageRoute(
                                   builder: (_) {
@@ -220,5 +254,16 @@ class _QuestionPageState extends State<QuestionPage> {
         ),
       )),
     );
+  }
+
+  void maketoast(var text, var color1, var color2) {
+    Fluttertoast.showToast(
+        msg: text,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Color(color1),
+        textColor: Color(color2),
+        fontSize: 16.0);
   }
 }
