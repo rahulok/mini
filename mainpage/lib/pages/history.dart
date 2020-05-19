@@ -48,15 +48,25 @@ class History extends StatelessWidget {
                           ),
                         ),
                         title: Padding(
-                          padding: EdgeInsets.all(10),
+                          padding: EdgeInsets.only(
+                            left: 5,
+                            right: 5,
+                            top: 5,
+                          ),
                           child: Text(
-                            diseases[idx] + '\n' + thedates[idx],
+                            diseases[idx],
                             style: GoogleFonts.sahitya(
                               textStyle: TextStyle(
                                 fontSize: 25,
                                 fontWeight: FontWeight.w400,
                               ),
                             ),
+                          ),
+                        ),
+                        subtitle: Padding(
+                          padding: EdgeInsets.only(left: 5),
+                          child: Text(
+                            thedates[idx],
                           ),
                         ),
                       ),
